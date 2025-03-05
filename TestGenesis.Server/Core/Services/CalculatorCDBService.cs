@@ -11,7 +11,7 @@ public class CalculatorCDBService(ICalculatorIncomeTaxService calculatorIncomeTa
     public async Task<ResultCalculationResponse> Calculate(decimal initialValue, int months)
     {
         if (initialValue <= 0 || months <= 0)
-            throw new ArgumentException("Forneça um valor inicial e prazo em meses maior que zero.");
+            throw new ArgumentException("Forneça um valor inicial e prazo em meses maiores que zero.");
         
         decimal gross = initialValue;
         decimal tax = 0;
@@ -27,7 +27,7 @@ public class CalculatorCDBService(ICalculatorIncomeTaxService calculatorIncomeTa
             tax = calculatorIncomeTaxService.Calculate(gross - initialValue, months);
 
             liquid = gross - tax;
-        });       
+        });
 
         return new ResultCalculationResponse(gross, liquid);
     }
