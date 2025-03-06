@@ -2,6 +2,7 @@
 Projeto responsável por receber uma valor monetário, prazo em meses e calcular o valor do investimento, retornando valores bruto e líquido
 ## Requisitos
 - .NET SDK 8.0
+- Node JS
 ## Configuração
 ### Clonando o projeto
 ```bash

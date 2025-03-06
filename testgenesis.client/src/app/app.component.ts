@@ -1,16 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
-
-interface ResultCalculationResponse {
-  gross: number;
-  liquid: number;
+interface CalculationCdbRequest {
+  initialValue: number;
+  months: number;
 }
 
 @Component({
@@ -20,23 +14,40 @@ interface ResultCalculationResponse {
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+  public mode: number = 1;
+  public calculationResponse: any;
+  public formCalculate: FormGroup = new FormGroup({
+    'valueInvestment': new FormControl(null, [Validators.required]),
+    'period': new FormControl(null, [Validators.required])
+  })  
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.getForecasts();
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
+  calculate() {
+    let request: CalculationCdbRequest = {
+      initialValue: this.formCalculate.value.valueInvestment,
+      months: this.formCalculate.value.period
+    }
+
+    this.http.post('/api/calculationcdb', request).subscribe({
+      next: (data) => {
+        this.calculationResponse = data;
+        this.mode = 2;
       },
-      (error) => {
-        console.error(error);
-      }
-    );
+      error: (error) => alert(error.error.detail)
+    })
+  }
+
+  back() {
+    this.mode = 1;
+  }
+
+  formatValue(event: any) {
+    let value = event.target.value.replace(/[^0-9]/g, '');
+    event.target.value = value;
   }
 
   title = 'testgenesis.client';

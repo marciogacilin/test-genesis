@@ -2,38 +2,42 @@
 
 <p>Informe os dados abaixo para calcular CDB a partir de um valor de investimento.</p>
 
-<p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
-
-<!--<table *ngIf="forecasts">
-    <thead>
+<div *ngIf="mode == 1">
+  <form [formGroup]="formCalculate" novalidate (ngSubmit)="calculate()">
+    <table>
+      <thead></thead>
+      <tbody>
         <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+          <td>Valor</td>
+          <td><input type="text" (input)="formatValue($event)" formControlName="valueInvestment" placeholder="Valor inicial" /></td>
         </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let forecast of forecasts">
-            <td>{{ forecast.date }}</td>
-            <td>{{ forecast.temperatureC }}</td>
-            <td>{{ forecast.temperatureF }}</td>
-            <td>{{ forecast.summary }}</td>
+        <tr>
+          <td>Prazo</td>
+          <td><input type="number" placeholder="Meses" formControlName="period" value="0" /></td>
         </tr>
-    </tbody>
-</table>-->
+        <tr>
+          <td colspan="2"><input type="submit" [disabled]="formCalculate.invalid" value="Calcular" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
 
-<table>
-  <thead></thead>
-  <tbody>
-    <tr>
-      <input type="text" placeholder="Valor inicial" />
-    </tr>
-    <tr>
-      <input type="number" placeholder="Meses" value="0" />
-    </tr>
-    <tr>
-      <input type="button" value="Calcular" />
-    </tr>
-  </tbody>
-</table>
+<div *ngIf="mode == 2">
+  <table>
+    <thead></thead>
+    <tbody>
+      <tr>
+        <td>Valor Bruto</td>
+        <td align="left">{{ calculationResponse.gross | currency:'BRL':'symbol':'1.2-2' }}</td>
+      </tr>
+      <tr>
+        <td>Valor Líquido</td>
+        <td align="left">{{ calculationResponse.liquid | currency:'BRL':'symbol':'1.2-2'}}</td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="button" value="Voltar" (click)="back()" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

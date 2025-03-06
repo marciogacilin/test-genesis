@@ -27,6 +27,8 @@ public class CalculatorCDBService(ICalculatorIncomeTaxService calculatorIncomeTa
             tax = calculatorIncomeTaxService.Calculate(gross - initialValue, months);
 
             liquid = gross - tax;
+            gross = Math.Truncate(gross * 100) / 100m;
+            liquid = Math.Truncate(liquid * 100) / 100m;
         });
 
         return new ResultCalculationResponse(gross, liquid);
