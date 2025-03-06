@@ -16,7 +16,7 @@ dotnet run
 ```
 A aplicação estará disponível no seguinte endereço:
 ```bash
-http://localhost:5012
+https://localhost:56534
 ```
 ## Testes
 Para rodar os testes da aplicação Backend, acesse o diretório raiz da aplicação e execute o seguine comando:
