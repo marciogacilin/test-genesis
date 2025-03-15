@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TestGenesis.Server.Core.Interfaces;
-using TestGenesis.Server.Core.Requests;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using TestGenesis.Server.Application.Commands;
 
 namespace TestGenesis.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CalculationCdbController(ICalculatorCDBService calculatorCDBService) : ControllerBase
+public class CalculationCdbController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> Calculate([FromBody] InputRequest request)
+    public async Task<IActionResult> Calculate([FromBody] CalculateCDBCommand request)
     {
-        var result = await calculatorCDBService.Calculate(request.InitialValue, request.Months);
+        var result = await mediator.Send(request);
 
         return Ok(result);
     }

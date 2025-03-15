@@ -1,6 +1,5 @@
-using TestGenesis.Server.Core.Interfaces;
-using TestGenesis.Server.Core.Services;
 using TestGenesis.Server.Middlewares;
+using TestGenesis.Server.CrossCutting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +10,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<ICalculatorIncomeTaxService, CalculatorIncomeTaxService>();
-builder.Services.AddTransient<ICalculatorCDBService, CalculatorCDBService>();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+builder.Services.AddProjectReferencies();
 
 var app = builder.Build();
 
