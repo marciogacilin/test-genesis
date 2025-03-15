@@ -1,4 +1,4 @@
-﻿using TestGenesis.Server.Core.Services;
+﻿using TestGenesis.Server.Application.Services;
 
 namespace TestGenesis.Tests.Core.Services;
 

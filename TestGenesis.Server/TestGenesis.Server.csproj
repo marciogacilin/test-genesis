@@ -20,6 +20,7 @@
     <ProjectReference Include="..\testgenesis.client\testgenesis.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\TestGenesis.Server.CrossCutting\TestGenesis.Server.CrossCutting.csproj" />
   </ItemGroup>
 
 </Project>

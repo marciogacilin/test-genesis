@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
         this.calculationResponse = data;
         this.mode = 2;
       },
-      error: (error) => alert(error.error.detail)
+      error: (error) => alert(error.error.errors[0])
     })
   }
 

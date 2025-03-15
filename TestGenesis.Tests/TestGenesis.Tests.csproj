@@ -17,7 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TestGenesis.Server\TestGenesis.Server.csproj" />
+    <ProjectReference Include="..\TestGenesis.Server.Application\TestGenesis.Server.Application.csproj" />
+    <ProjectReference Include="..\TestGenesis.Server.Domain\TestGenesis.Server.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using TestGenesis.Server.Domain.Responses;
 
 namespace TestGenesis.Server.Middlewares;
 
@@ -7,22 +7,28 @@ public class GlobalExceptionHandler : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        var statusCode = exception switch
+        int statusCode;
+        ResultErrorResponse result;
+        if (exception is FluentValidation.ValidationException validationException)
         {
-            ArgumentException => StatusCodes.Status400BadRequest,
-            _ => StatusCodes.Status500InternalServerError
-        };
+            var errors = validationException.Errors
+                .Select(error => $"{error.PropertyName}: {error.ErrorMessage}")
+                .ToList();
 
-        var problemDetails = new ProblemDetails
+            statusCode = StatusCodes.Status400BadRequest;
+
+            result = new(statusCode, errors);
+        }
+        else
         {
-            Detail = exception.Message,
-            Status = statusCode,
-            Title = "Erro"
-        };
+            statusCode = StatusCodes.Status500InternalServerError;
 
+            result = new(statusCode, ["Ocorreu um erro inesperado"]);
+        }
+        
         httpContext.Response.StatusCode = statusCode;
 
-        await httpContext.Response.WriteAsJsonAsync(problemDetails);
+        await httpContext.Response.WriteAsJsonAsync(result);
 
         return true;
     }
